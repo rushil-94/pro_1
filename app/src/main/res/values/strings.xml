@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Sound Recoder</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="records">Records</string>
+    <string name="setting">Settings</string>
+</resources>
