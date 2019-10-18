@@ -1,17 +1,12 @@
-package com.rushil.soundrecoder.fragments;
+package com.rushil.soundrecoder.preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -24,18 +19,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class SettingFragment extends PreferenceFragmentCompat implements ListPreference.OnPreferenceChangeListener,
-        SharedPreferences.OnSharedPreferenceChangeListener, EditTextPreference.OnBindEditTextListener {
-    private static final String TAG = "SettingFragment";
+public class MyPref extends PreferenceFragmentCompat implements ListPreference.OnPreferenceChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
+    private static final String TAG = "MyPref";
     private Context context;
     private ArrayList<setOnPreferenceUpdateListeners> preferenceUpdateListeners;
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -44,16 +32,9 @@ public class SettingFragment extends PreferenceFragmentCompat implements ListPre
         final ListPreference encoderListPreference = findPreference(Constants.FILE_ENCODER_KEY);
         final ListPreference fileTypeListPreference = findPreference(Constants.FILE_TYPE_KEY);
         EditTextPreference editTextPreference = findPreference(Constants.FILE_LABEL_KEY);
+
         Log.e(TAG, "onCreatePreferences: " + getPreferenceManager().getSharedPreferencesName());
 
-        if (editTextPreference != null) {
-            if (editTextPreference.getText().isEmpty()) {
-                editTextPreference.setText("Recording");
-            }
-            editTextPreference.setTitle(editTextPreference.getText());
-            editTextPreference.setOnBindEditTextListener(this);
-            editTextPreference.setOnPreferenceChangeListener(this);
-        }
 
         if (fileLocationListPreference != null) {
             checkDirectories(fileLocationListPreference);
@@ -88,18 +69,6 @@ public class SettingFragment extends PreferenceFragmentCompat implements ListPre
         }
 
 
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e(TAG, "onCreateView: ");
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.e(TAG, "onViewCreated: ");
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -181,18 +150,7 @@ public class SettingFragment extends PreferenceFragmentCompat implements ListPre
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
-        if (preference instanceof ListPreference) {
-            preference.setTitle(((ListPreference) preference).getEntries()[((ListPreference) preference)
-                    .findIndexOfValue(newValue.toString())]);
-        } else if (preference instanceof EditTextPreference) {
-            if (((EditTextPreference) preference).getText().isEmpty()) {
-                ((EditTextPreference) preference).setText("Recording");
-            }
-            getPreferenceManager().findPreference(Constants.FILE_LABEL_KEY)
-                    .setTitle(newValue.toString());
-
-        }
+        preference.setTitle(((ListPreference) preference).getEntries()[((ListPreference) preference).findIndexOfValue(newValue.toString())]);
         return true;
     }
 
@@ -204,16 +162,6 @@ public class SettingFragment extends PreferenceFragmentCompat implements ListPre
             }
         }
     }
-
-    @Override
-    public void onBindEditText(@NonNull EditText editText) {
-        if (editText.getText().toString().isEmpty()) {
-            editText.setText("Recording");
-        }
-        getPreferenceManager().findPreference(Constants.FILE_LABEL_KEY).setTitle(editText.getText());
-
-    }
-
 
     public interface setOnPreferenceUpdateListeners {
         void onPreferenceUpdateListeners(SharedPreferences sharedPreferences);

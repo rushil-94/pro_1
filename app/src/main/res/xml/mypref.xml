@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="File Label">
+        <EditTextPreference
+            android:dialogTitle="Enter File Label"
+            android:key="fileLabel"
+            android:title="Recording" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="File Location">
+        <ListPreference
+            android:defaultValue="true"
+            android:key="fileLocation"
+            android:title="select file location" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Audio Encoder">
+        <ListPreference
+            android:key="encoder"
+            android:title="select Encoder Type" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="File Extension">
+        <ListPreference
+            android:defaultValue="true"
+            android:key="fileType"
+            android:title="select File Type" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
